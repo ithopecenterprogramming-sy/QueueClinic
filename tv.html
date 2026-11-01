@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مركز الأمل الطبي - شاشة العرض الحية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo.png">
+  <style>
+    :root {
+      --gold-primary: #C5A059;
+      --gold-light: #F9F6F0;
+      --gold-border: #E8DFD1;
+      --text-dark: #2C2A29;
+      --bg-main: #FAF8F5;
+      --danger-primary: #C0392B;
+      --danger-light: #FDEDEC;
+      --danger-border: #F5B7B1;
+    }
+    * { box-sizing: border-box; }
+    /* إعدادات الخط نفسها المستخدمة في index.html */
+    html, body, button, input, select, textarea {
+      font-family: 'Cairo', sans-serif !important;
+      font-synthesis: none;
+    }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      margin: 0;
+      padding: 30px 25px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    #audioOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-main); display: flex; flex-direction: column;
+      justify-content: center; align-items: center; z-index: 9999;
+      text-align: center; padding: 20px;
+    }
+    .btn-start-screen {
+      background: var(--gold-primary); color: white; border: none;
+      padding: 20px 40px; border-radius: 16px; font-size: 22px;
+      font-weight: 800; cursor: pointer; box-shadow: 0 8px 25px rgba(197, 160, 89, 0.4);
+      margin-top: 15px;
+    }
+    .display-container { width: 100%; max-width: 1300px; margin: 0 auto; text-align: center; display: none; }
+    .display-header img { height: 130px; margin-bottom: 20px; mix-blend-mode: multiply; }
+    .tv-columns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; align-items: start; }
+    @media (max-width: 900px) { .tv-columns-grid { grid-template-columns: 1fr; } }
+    .display-card {
+      background: white; border-radius: 24px; padding: 28px;
+      border: 1px solid var(--gold-border); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      min-height: 480px;
+    }
+    .card-emergency { border-color: var(--danger-border); background: #FFFAFA; }
+    .display-title {
+      font-size: 25px; color: var(--gold-primary); font-weight: 800;
+      margin-bottom: 22px; border-bottom: 2px solid var(--gold-light);
+      padding-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .title-emergency { color: var(--danger-primary); border-bottom-color: var(--danger-light); }
+    .display-queue-item {
+      background: var(--bg-main); border: 2px solid var(--gold-border);
+      border-right: 8px solid var(--gold-primary); border-radius: 16px;
+      padding: 18px 22px; margin-bottom: 14px; display: flex;
+      justify-content: space-between; align-items: center; font-size: 21px;
+      transition: transform 0.2s;
+    }
+    .item-emergency { background: #FFFFFF; border-color: var(--danger-border); border-right: 8px solid var(--danger-primary); }
+    .ticket-badge-tv {
+      background-color: var(--gold-primary); color: white; font-size: 20px;
+      font-weight: 800; padding: 4px 12px; border-radius: 10px; margin-left: 12px; display: inline-block;
+    }
+    .item-emergency .ticket-badge-tv { background-color: var(--danger-primary); }
+    .empty-msg { color: #999; font-size: 18px; padding: 40px 0; font-weight: 600; }
+    .calling-active {
+      animation: pulseGlow 0.8s infinite alternate;
+      border-right-color: #27ae60 !important;
+      transform: scale(1.03);
+    }
+    @keyframes pulseGlow {
+      0% { background-color: var(--bg-main); }
+      100% { background-color: #FEFCE8; box-shadow: 0 0 30px rgba(197, 160, 89, 0.7); }
+    }
+  </style>
+</head>
+<body>
+  <div id="audioOverlay">
+    <img src="logo.png" alt="لوجو" style="height: 120px; margin-bottom: 20px; mix-blend-mode: multiply;">
+    <h2 style="color: var(--gold-primary); margin-bottom: 10px;">نظام عرض الشاشة العامة</h2>
+    <p style="color: #666; font-size: 16px; margin-bottom: 20px;">اضغط على الزر أدناه لتفعيل الصوت</p>
+    <button class="btn-start-screen" onclick="startDisplay()">🔔 اضغط هنا لتشغيل الشاشة وتفعيل الصوت</button>
+  </div>
+
+  <div id="mainDisplay" class="display-container">
+    <div class="display-header"><img src="logo.png" alt="مركز الأمل الطبي"></div>
+    <div class="tv-columns-grid">
+      <div class="display-card">
+        <div class="display-title"><span>📋</span><span>الانتظار العام</span></div>
+        <div id="normalQueueList"></div>
+        <div id="normalEmptyMsg" class="empty-msg">لا يوجد مرضى في الانتظار العادي</div>
+      </div>
+      <div class="display-card card-emergency">
+        <div class="display-title title-emergency"><span>🚨</span><span>الحالات الطارئة</span></div>
+        <div id="emergencyQueueList"></div>
+        <div id="emergencyEmptyMsg" class="empty-msg" style="color: #d98880;">لا توجد حالات طارئة حالياً</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ipcRenderer = null;
+    try {
+      const electron = require('electron');
+      ipcRenderer = electron.ipcRenderer;
+    } catch (e) {}
+
+    const channel = new BroadcastChannel('clinic_queue_channel');
+    let audioCtx = null;
+    let currentAudioElement = null;
+
+    function startDisplay() {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      document.getElementById('audioOverlay').style.display = 'none';
+      document.getElementById('mainDisplay').style.display = 'block';
+      channel.postMessage({ type: 'TV_READY' });
+    }
+
+    window.addEventListener('beforeunload', () => channel.postMessage({ type: 'TV_CLOSED' }));
+
+    function updateTVDisplay(queue) {
+      const normalList = document.getElementById('normalQueueList');
+      const emergencyList = document.getElementById('emergencyQueueList');
+      const normalEmptyMsg = document.getElementById('normalEmptyMsg');
+      const emergencyEmptyMsg = document.getElementById('emergencyEmptyMsg');
+
+      normalList.innerHTML = '';
+      emergencyList.innerHTML = '';
+
+      if (!queue || queue.length === 0) {
+        normalEmptyMsg.style.display = 'block';
+        emergencyEmptyMsg.style.display = 'block';
+        return;
+      }
+
+      const normalPatients = queue.filter(item => !item.isEmergency);
+      const emergencyPatients = queue.filter(item => item.isEmergency);
+
+      normalEmptyMsg.style.display = normalPatients.length === 0 ? 'block' : 'none';
+      emergencyEmptyMsg.style.display = emergencyPatients.length === 0 ? 'block' : 'none';
+
+      normalPatients.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'display-queue-item';
+        div.setAttribute('data-patient-id', item.id);
+        div.innerHTML = `<div><span class="ticket-badge-tv">#${item.ticketNumber}</span><strong>${item.title} ${item.name}</strong></div><span style="color: var(--gold-primary); font-weight: 700;">${item.clinicText}</span>`;
+        normalList.appendChild(div);
+      });
+
+      emergencyPatients.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'display-queue-item item-emergency';
+        div.setAttribute('data-patient-id', item.id);
+        div.innerHTML = `<div><span class="ticket-badge-tv">#${item.ticketNumber}</span><strong style="color: var(--danger-primary);">${item.title} ${item.name}</strong></div><span style="color: var(--danger-primary); font-weight: 700;">${item.clinicText}</span>`;
+        emergencyList.appendChild(div);
+      });
+    }
+
+    channel.onmessage = (event) => {
+      if (event.data.type === 'UPDATE_QUEUE') {
+        updateTVDisplay(event.data.queue);
+      } else if (event.data.type === 'CALL_PATIENT') {
+        highlightPatient(event.data.patientId);
+        playAudioCall(event.data.sentence);
+      }
+    };
+
+    function highlightPatient(patientId) {
+      clearHighlight();
+      if (!patientId) return;
+      document.querySelectorAll('.display-queue-item').forEach(el => {
+        if (Number(el.getAttribute('data-patient-id')) === Number(patientId)) {
+          el.classList.add('calling-active');
+        }
+      });
+    }
+
+    function clearHighlight() {
+      document.querySelectorAll('.display-queue-item').forEach(el => el.classList.remove('calling-active'));
+    }
+
+    async function playAudioCall(text) {
+      if (audioCtx && audioCtx.state === 'suspended') await audioCtx.resume();
+
+      if (currentAudioElement) {
+        currentAudioElement.pause();
+        currentAudioElement = null;
+      }
+
+      const finishCall = () => {
+        clearHighlight();
+        channel.postMessage({ type: 'CALL_FINISHED' });
+      };
+
+      try {
+        if (ipcRenderer) {
+          const base64Audio = await ipcRenderer.invoke('fetch-online-audio', text);
+          if (base64Audio) {
+            currentAudioElement = new Audio(base64Audio);
+            currentAudioElement.onended = finishCall;
+            currentAudioElement.onerror = finishCall;
+            await currentAudioElement.play();
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("خطأ تشغيل الصوت:", err);
+      }
+      finishCall();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "name": "clinic-queue-system",
+  "version": "1.0.6",
+  "description": "نظام النداء الآلي - مركز الأمل الطبي",
+  "author": "Alamal Clinic",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.alamal.queue.system",
+    "productName": "نظام النداء لمركز الأمل الطبي",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "نظام النداء لمركز الأمل الطبي",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    }
+  }
+}

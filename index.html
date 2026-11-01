@@ -1,0 +1,1222 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مركز الأمل الطبي - لوحة موظف الاستقبال</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <style>
+    :root {
+      --gold-primary: #C5A059;
+      --gold-hover: #b08c46;
+      --gold-light: #F9F6F0;
+      --gold-border: #E8DFD1;
+      --text-dark: #2C2A29;
+      --text-muted: #736E65;
+      --bg-main: #FAF8F5;
+      --white: #FFFFFF;
+      --success: #2D8A56;
+      --danger: #C0392B;
+      --danger-border: #F5B7B1;
+      --warning: #D35400;
+      --shadow-sm: 0 4px 15px rgba(197, 160, 89, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body, button, input, select, textarea {
+      font-family: 'Cairo', sans-serif !important;
+      font-synthesis: none;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      margin: 0;
+      padding: 30px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo-container {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-img {
+      height: 110px;
+      width: auto;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+   .tv-control-bar {
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: var(--gold-light);
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--gold-border);
+  gap: 12px;
+}
+
+.screen-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.screen-controls span {
+  white-space: nowrap;
+}
+
+.screen-controls select {
+  flex: 1;
+  min-width: 0;
+  width: auto !important;
+}
+
+.btn-tv {
+  background-color: var(--gold-primary);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.btn-tv:hover {
+  background-color: var(--gold-hover);
+}
+
+.btn-reset-counter {
+  align-self: flex-start;
+}
+
+    .btn-tv {
+      background-color: var(--gold-primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .btn-tv:hover {
+      background-color: var(--gold-hover);
+    }
+
+    .btn-reset-counter {
+      background-color: transparent;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .btn-reset-counter:hover {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid var(--gold-border);
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+      max-width: 550px;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      margin-top: 0;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .required-asterisk {
+      color: var(--danger);
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 16px;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border: 1.5px solid var(--gold-border);
+      background-color: var(--bg-main);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      flex: 1;
+      transition: all 0.2s;
+    }
+
+    .radio-label input {
+      accent-color: var(--gold-primary);
+    }
+
+    .radio-label:has(input:checked) {
+      border-color: var(--gold-primary);
+      background-color: var(--gold-light);
+      color: var(--gold-primary);
+    }
+
+    .radio-label.emergency-yes:has(input:checked) {
+      border-color: var(--danger);
+      background-color: #FDEDEC;
+      color: var(--danger);
+    }
+
+    .radio-label.emergency-yes input {
+      accent-color: var(--danger);
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--gold-border);
+      background-color: var(--bg-main);
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.25s;
+    }
+
+    input[type="text"]:focus, select:focus {
+      border-color: var(--gold-primary);
+      background-color: var(--white);
+      box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.15);
+    }
+
+    .tashkeel-bar {
+      margin-top: 10px;
+      background: var(--gold-light);
+      border: 1px dashed var(--gold-border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .tashkeel-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .tashkeel-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tashkeel-btn {
+      background: #fff;
+      border: 1px solid var(--gold-border);
+      color: var(--gold-primary);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      min-width: 44px;
+    }
+
+    .tashkeel-btn:hover {
+      background: var(--gold-primary);
+      color: #fff;
+    }
+
+    .tashkeel-btn.clear {
+      color: var(--danger);
+      border-color: var(--danger-border);
+    }
+
+    .tashkeel-btn.clear:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .call-preview {
+      display: none;
+      background: #FEF9E7;
+      border: 1px solid #F9E79F;
+      color: var(--warning);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      line-height: 2;
+      word-break: break-word;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold-primary), #A8823D);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+      transition: all 0.3s;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #A8823D, #8E6B2A);
+    }
+
+    .queue-list {
+      list-style: none;
+      padding: 0;
+      margin: 15px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .queue-item {
+      background: var(--bg-main);
+      border: 1px solid var(--gold-border);
+      border-right: 5px solid var(--gold-primary);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .queue-item.is-emergency {
+      border-right: 5px solid var(--danger);
+      background: #FFFDFD;
+    }
+
+    .patient-ticket-badge {
+      display: inline-block;
+      background-color: var(--gold-primary);
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+
+    .badge-emergency {
+      display: inline-block;
+      background-color: var(--danger);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+    }
+
+    .row-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-action {
+      border: none;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-call {
+      background-color: var(--gold-light);
+      color: var(--gold-primary);
+      border: 1px solid var(--gold-border);
+    }
+
+    .btn-call:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-done {
+      background-color: #EBF7EE;
+      color: var(--success);
+      border: 1px solid #C8E6C9;
+    }
+
+    .btn-done:hover {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 10px;
+      background-color: #FEF9E7;
+      color: var(--warning);
+      border: 1px solid #F9E79F;
+      font-size: 14px;
+      margin-bottom: 16px;
+      display: none;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px 10px;
+      }
+
+      .card {
+        padding: 20px 15px;
+      }
+
+      .tv-control-bar {
+        padding: 10px;
+      }
+
+      .queue-item {
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo-container">
+      <img src="logo.png" alt="مركز الأمل الطبي" class="logo-img">
+      <div class="subtitle">لوحة موظف الاستقبال</div>
+    </div>
+  </header>
+
+<div class="tv-control-bar">
+
+  <div class="screen-controls">
+
+    <span>شاشة العرض:</span>
+
+    <select id="screenSelect"
+      style="padding:7px 10px; border-radius:8px; border:1.5px solid var(--gold-border); font-weight:600;">
+    </select>
+
+    <button type="button" id="openTVBtn" class="btn-tv">
+      🖥️ تشغيل على التلفاز
+    </button>
+
+    <button type="button" id="refreshDisplaysBtn"
+      title="تحديث الشاشات"
+      style="padding:7px 10px; cursor:pointer; border-radius:8px; border:1px solid var(--gold-border); background:#fff;">
+      🔄
+    </button>
+
+  </div>
+
+  <button type="button" id="resetCounterBtn"
+    class="btn-reset-counter"
+    title="تصفير أرقام البطاقات لليوم الجديد">
+    🔄 تصفير الأرقام
+  </button>
+
+</div>
+  <main class="card">
+    <h2 class="card-title">إدخال مريض جديد</h2>
+
+    <div id="alertBox" class="alert"></div>
+
+    <form id="patientForm">
+      <div class="form-group">
+      <label>الصفة <span class="required-asterisk">*</span>:</label>
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" name="title" value="السيد" checked required> السيد
+        </label>
+
+        <label class="radio-label">
+          <input type="radio" name="title" value="السيدة" required> السيدة
+        </label>
+
+        <label class="radio-label">
+          <input type="radio" name="title" value="الطفل" required> الطفل
+        </label>
+
+        <label class="radio-label">
+          <input type="radio" name="title" value="الطفلة" required> الطفلة
+        </label>
+      </div>
+    </div>
+
+      <div class="form-group">
+        <label for="patientName">الاسم <span class="required-asterisk">*</span>:</label>
+        <input type="text" id="patientName"
+          placeholder="أدخل اسم المريض..."
+          autocomplete="off" required>
+
+        <div class="tashkeel-bar">
+          <span class="tashkeel-hint">
+            ✍️ شكّل الاسم حتى يُنطق بشكل صحيح (ضع المؤشر بعد الحرف ثم اضغط الحركة):
+          </span>
+
+          <div class="tashkeel-btns">
+            <button type="button" class="tashkeel-btn" onclick="insertTashkeel('َ')" title="فتحة">ـَ</button>
+            <button type="button" class="tashkeel-btn" onclick="insertTashkeel('ُ')" title="ضمة">ـُ</button>
+            <button type="button" class="tashkeel-btn" onclick="insertTashkeel('ِ')" title="كسرة">ـِ</button>
+            <button type="button" class="tashkeel-btn" onclick="insertTashkeel('ْ')" title="سكون">ـْ</button>
+            <button type="button" class="tashkeel-btn" onclick="insertTashkeel('ّ')" title="شدة">ـّ</button>
+            <button type="button" class="tashkeel-btn" onclick="insertTashkeel('ً')" title="تنوين فتح">ـً</button>
+            <button type="button" class="tashkeel-btn" onclick="insertTashkeel('ٌ')" title="تنوين ضم">ـٌ</button>
+            <button type="button" class="tashkeel-btn" onclick="insertTashkeel('ٍ')" title="تنوين كسر">ـٍ</button>
+            <button type="button" class="tashkeel-btn clear" onclick="clearNameTashkeel()" title="إزالة كل الحركات من الاسم">🧹 مسح التشكيل</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="clinicSelect">اختر العيادة / القسم <span class="required-asterisk">*</span>:</label>
+        <select id="clinicSelect" required>
+          <option value="" disabled selected>اختر العيادة...</option>
+          <option value="العيادة رقم 1">العيادة رقم 1</option>
+          <option value="العيادة رقم 2">العيادة رقم 2</option>
+          <option value="العيادة رقم 3">العيادة رقم 3</option>
+          <option value="العيادة رقم 4">العيادة رقم 4</option>
+          <option value="العيادة رقم 5">العيادة رقم 5</option>
+          <option value="العيادة رقم 6">العيادة رقم 6</option>
+          <option value="العيادة رقم 7">العيادة رقم 7</option>
+          <option value="العيادة رقم 8">العيادة رقم 8</option>
+          <option value="العيادة رقم 9">العيادة رقم 9</option>
+          <option value="العيادة رقم 10 أو العالمية">العيادة رقم 10 أو العالمية</option>
+          <option value="العيادة العينية">العيادة العينية</option>
+          <option value="عيادة التجميل">عيادة التجميل</option>
+        </select>
+      </div>
+
+      <div id="callPreview" class="call-preview"></div>
+
+      <div class="form-group">
+        <label>حالة طارئة <span class="required-asterisk">*</span>:</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="isEmergency" value="no" checked> لا
+          </label>
+          <label class="radio-label emergency-yes">
+            <input type="radio" name="isEmergency" value="yes"> 🚨 نعم
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">إضافة لقائمة الانتظار</button>
+    </form>
+
+    <div style="margin-top:30px; border-top:2px solid var(--gold-light); padding-top:20px;">
+      <h3 style="font-size:16px; color:var(--gold-primary); margin:0 0 15px 0;">
+        التحكم بالنداء والحذف
+      </h3>
+      <ul id="adminQueueList" class="queue-list"></ul>
+    </div>
+  </main>
+
+  <script>
+    // =========================
+    // إعدادات Electron
+    // =========================
+
+    let ipcRenderer = null;
+
+    try {
+      const electron = require('electron');
+      ipcRenderer = electron.ipcRenderer;
+    } catch (e) {
+      console.log('التشغيل خارج Electron');
+    }
+
+    const channel = new BroadcastChannel('clinic_queue_channel');
+
+    let queue = [];
+    let isCalling = false;
+    let isTVReady = false;
+    let fallbackTimer = null;
+
+    let currentTicketNumber = parseInt(
+      localStorage.getItem('clinic_ticket_seq') || '1',
+      10
+    );
+
+    if (!Number.isFinite(currentTicketNumber) || currentTicketNumber < 1) {
+      currentTicketNumber = 1;
+    }
+
+    // =========================
+    // دوال إدارة أرقام البطاقات
+    // =========================
+
+    // إيجاد الرقم التالي غير المستخدم في قائمة الانتظار
+    function getNextAvailableTicketNumber() {
+      const usedNumbers = new Set(
+        queue.map(item => Number(item.ticketNumber))
+      );
+
+      let nextNumber = Math.max(1, currentTicketNumber);
+
+      while (usedNumbers.has(nextNumber)) {
+        nextNumber++;
+      }
+
+      return nextNumber;
+    }
+
+    // حفظ الرقم التالي في التخزين المحلي
+    function saveNextTicketNumber() {
+      localStorage.setItem(
+        'clinic_ticket_seq',
+        String(currentTicketNumber)
+      );
+    }
+
+    // =========================
+    // تشغيل الصفحة وربط الأزرار
+    // =========================
+
+    window.addEventListener('DOMContentLoaded', () => {
+
+      const nameInput = document.getElementById('patientName');
+      const clinicSelect = document.getElementById('clinicSelect');
+
+      // تحديث معاينة النداء
+      nameInput.addEventListener('input', updateCallPreview);
+      clinicSelect.addEventListener('change', updateCallPreview);
+
+      document.querySelectorAll('input[name="title"]').forEach(radio => {
+        radio.addEventListener('change', updateCallPreview);
+      });
+
+      // ربط زر تصفير الأرقام
+      const resetButton = document.getElementById('resetCounterBtn');
+
+      if (resetButton) {
+        resetButton.addEventListener('click', clinicResetCounter);
+      }
+
+      // ربط زر تحديث الشاشات
+      document.getElementById('refreshDisplaysBtn')
+        .addEventListener('click', loadDisplays);
+
+      // ربط زر تشغيل التلفاز
+      document.getElementById('openTVBtn')
+        .addEventListener('click', openTVDisplay);
+
+      // منع إعادة تحميل الصفحة عند إرسال النموذج
+      document.getElementById('patientForm')
+        .addEventListener('submit', function(event) {
+          event.preventDefault();
+          addPatient();
+        });
+
+      // عرض القائمة عند بدء التشغيل
+      renderAdminQueue();
+
+      // تحميل الشاشات
+      if (ipcRenderer) {
+        loadDisplays();
+      }
+    });
+
+    // =========================
+    // الشاشات
+    // =========================
+
+    async function loadDisplays() {
+      if (!ipcRenderer) return;
+
+      try {
+        const screenSelect = document.getElementById('screenSelect');
+        const screens = await ipcRenderer.invoke('get-screens');
+
+        screenSelect.innerHTML = '';
+
+        if (!screens || screens.length === 0) {
+          const option = document.createElement('option');
+          option.value = '';
+          option.textContent = 'لا توجد شاشات';
+          screenSelect.appendChild(option);
+          return;
+        }
+
+        if (screens.length <= 1) {
+          const option = document.createElement('option');
+          option.value = screens[0].id;
+          option.textContent = 'الشاشة الرئيسية';
+          screenSelect.appendChild(option);
+          return;
+        }
+
+        screens.forEach(screen => {
+          const option = document.createElement('option');
+          option.value = screen.id;
+          option.textContent = screen.label;
+
+          if (!screen.isPrimary) {
+            option.selected = true;
+          }
+
+          screenSelect.appendChild(option);
+        });
+
+      } catch (error) {
+        console.error('خطأ في تحميل الشاشات:', error);
+      }
+    }
+
+    if (ipcRenderer) {
+      ipcRenderer.on('screens-updated', loadDisplays);
+    }
+
+    function openTVDisplay() {
+      if (ipcRenderer) {
+        const screenSelect = document.getElementById('screenSelect');
+        const selectedScreenId = screenSelect ? screenSelect.value : null;
+
+        ipcRenderer.send('open-tv-window', selectedScreenId);
+      } else {
+        window.open('tv.html', '_blank');
+      }
+    }
+
+    // =========================
+    // تصفير العداد بطريقة آمنة
+    // =========================
+
+    function clinicResetCounter() {
+
+      // لا نغير حقل الاسم أو حالته نهائياً.
+      // إذا كانت هناك بطاقات موجودة، لا نعيد استخدام أرقامها.
+
+      const usedNumbers = queue
+        .map(item => Number(item.ticketNumber))
+        .filter(number => Number.isFinite(number) && number > 0);
+
+      const highestUsedNumber = usedNumbers.length > 0
+        ? Math.max(...usedNumbers)
+        : 0;
+
+      currentTicketNumber = highestUsedNumber + 1;
+
+      saveNextTicketNumber();
+
+      if (highestUsedNumber === 0) {
+        showAlert('تم تصفير العداد بنجاح. الرقم التالي هو 1.');
+      } else {
+        showAlert(
+          `تم ضبط العداد دون تكرار الأرقام. الرقم التالي هو ${currentTicketNumber}.`
+        );
+      }
+
+      console.log('الرقم التالي:', currentTicketNumber);
+    }
+
+    // =========================
+    // التشكيل
+    // =========================
+
+    function insertTashkeel(mark) {
+      const input = document.getElementById('patientName');
+
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+
+      input.value =
+        input.value.slice(0, start) +
+        mark +
+        input.value.slice(end);
+
+      input.focus();
+
+      const position = start + mark.length;
+      input.setSelectionRange(position, position);
+
+      updateCallPreview();
+    }
+
+    function clearNameTashkeel() {
+      const input = document.getElementById('patientName');
+
+      input.value = input.value.replace(/[\u064B-\u0652\u0670\u0640]/g, '');
+
+      input.focus();
+      updateCallPreview();
+    }
+
+    // =========================
+    // تحويل الأرقام إلى كلمات
+    // =========================
+
+    function numberToWords(num) {
+      if (num === 0) return "صِفْرْ";
+      if (num === 1) return "وَاحِدْ";
+      if (num === 2) return "اثْنَانْ";
+
+      const units = [
+        "",
+        "وَاحِدْ",
+        "اثْنَانْ",
+        "ثَلَاثَةْ",
+        "أَرْبَعَةْ",
+        "خَمْسَةْ",
+        "سِتَّةْ",
+        "سَبْعَةْ",
+        "ثَمَانِيَةْ",
+        "تِسْعَةْ"
+      ];
+
+      const teens = [
+        "عَشَرَةْ",
+        "أَحَدَ عَشَرْ",
+        "اثْنَا عَشَرْ",
+        "ثَلَاثَةَ عَشَرْ",
+        "أَرْبَعَةَ عَشَرْ",
+        "خَمْسَةَ عَشَرْ",
+        "سِتَّةَ عَشَرْ",
+        "سَبْعَةَ عَشَرْ",
+        "ثَمَانِيَةَ عَشَرْ",
+        "تِسْعَةَ عَشَرْ"
+      ];
+
+      const tens = [
+        "",
+        "",
+        "عِشْرُونَ",
+        "ثَلَاثُونَ",
+        "أَرْبَعُونَ",
+        "خَمْسُونَ",
+        "سِتُّونَ",
+        "سَبْعُونَ",
+        "ثَمَانُونَ",
+        "تِسْعُونَ"
+      ];
+
+      const hundreds = [
+        "",
+        "مِئَةْ",
+        "مِئَتَانْ",
+        "ثَلَاثُ مِئَةْ",
+        "أَرْبَعُ مِئَةْ",
+        "خَمْسُ مِئَةْ",
+        "سِتُّ مِئَةْ",
+        "سَبْعُ مِئَةْ",
+        "ثَمَانُ مِئَةْ",
+        "تِسْعُ مِئَةْ"
+      ];
+
+      if (num < 10) return units[num];
+      if (num < 20) return teens[num - 10];
+
+      if (num < 100) {
+        const unit = num % 10;
+        const ten = Math.floor(num / 10);
+
+        return unit === 0
+          ? tens[ten]
+          : units[unit] + " وَ" + tens[ten];
+      }
+
+      if (num < 1000) {
+        const hundred = Math.floor(num / 100);
+        const remainder = num % 100;
+
+        if (remainder === 0) return hundreds[hundred];
+
+        return hundreds[hundred] + " وَ" + numberToWords(remainder);
+      }
+
+      return String(num);
+    }
+
+    // =========================
+    // تجهيز اسم العيادة للنطق
+    // =========================
+
+    function makeClinicSpeech(clinicText) {
+      if (!clinicText) return '';
+
+      let text = clinicText
+        .replace(/العيادة/g, 'الْعِيَادَةِ')
+        .replace(/(^|\s)عيادة/g, '$1عِيَادَةِ')
+        .replace(/رقم/g, 'رَقْمِ')
+        .replace(/العالمية/g, 'الْعَالَمِيَّةِ')
+        .replace(/العينية/g, 'الْعَيْنِيَّةِ')
+        .replace(/التجميل/g, 'التَّجْمِيلِ');
+
+      text = text.replace(/\d+/g, match => {
+        return numberToWords(parseInt(match, 10));
+      });
+
+      return text;
+    }
+
+    // =========================
+    // بناء جملة النداء
+    // =========================
+ function buildCallSentence(item, mode) {
+  const clinicSpeech = makeClinicSpeech(item.clinicText);
+
+  if (mode === 'name') {
+    const titles = {
+      'السيد': 'السَّيِّدُ',
+      'السيدة': 'السَّيِّدَةُ',
+      'الطفل': 'الطِّفْلُ',
+      'الطفلة': 'الطِّفْلَةُ'
+    };
+
+    const titleVocal = titles[item.title] || 'السَّيِّدُ';
+
+    return `${titleVocal} ${item.name} ... ، الرَّجَاءُ التَّوَجُّهُ إِلَى ${clinicSpeech}`;
+  }
+
+  return `الْبِطَاقَةُ رَقْمُ ${item.ticketNumberWords} ... ، الرَّجَاءُ التَّوَجُّهُ إِلَى ${clinicSpeech}`;
+}
+
+
+// =========================
+// معاينة جملة النداء
+// =========================
+
+function updateCallPreview() {
+  const preview = document.getElementById('callPreview');
+  const name = document.getElementById('patientName').value.trim();
+  const clinic = document.getElementById('clinicSelect').value;
+
+  const titleObj = document.querySelector('input[name="title"]:checked');
+
+  const titles = {
+    'السيد': 'السَّيِّدُ',
+    'السيدة': 'السَّيِّدَةُ',
+    'الطفل': 'الطِّفْلُ',
+    'الطفلة': 'الطِّفْلَةُ'
+  };
+
+  const titleVocal = titles[titleObj ? titleObj.value : 'السيد']
+    || 'السَّيِّدُ';
+
+  if (!name && !clinic) {
+    preview.style.display = 'none';
+    return;
+  }
+
+  const namePart = name || '...';
+  const clinicPart = clinic ? makeClinicSpeech(clinic) : '...';
+
+  preview.textContent =
+    '🔊 سيُنطق: ' +
+    `${titleVocal} ${namePart} ... ، الرَّجَاءُ التَّوَجُّهُ إِلَى ${clinicPart}`;
+
+  preview.style.display = 'block';
+}
+    // =========================
+    // معاينة جملة النداء
+    // =========================
+ 
+    // =========================
+    // استقبال رسائل شاشة التلفاز
+    // =========================
+
+    channel.onmessage = (event) => {
+
+      if (
+        event.data.type === 'TV_READY' ||
+        event.data.type === 'REQUEST_INITIAL_DATA'
+      ) {
+        isTVReady = true;
+        syncData();
+
+      } else if (event.data.type === 'TV_CLOSED') {
+        isTVReady = false;
+
+      } else if (event.data.type === 'CALL_FINISHED') {
+        clearTimeout(fallbackTimer);
+
+        setTimeout(() => {
+          isCalling = false;
+          renderAdminQueue();
+        }, 2000);
+      }
+    };
+
+    // =========================
+    // رسائل التنبيه
+    // =========================
+
+    function showAlert(msg) {
+      const alertBox = document.getElementById('alertBox');
+
+      alertBox.textContent = msg;
+      alertBox.style.display = 'block';
+
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+      }, 4000);
+    }
+
+    // =========================
+    // إضافة مريض
+    // =========================
+
+    function addPatient() {
+      const nameInput = document.getElementById('patientName');
+      const clinicSelect = document.getElementById('clinicSelect');
+
+      const selectedTitleObj =
+        document.querySelector('input[name="title"]:checked');
+
+      const selectedEmergencyObj =
+        document.querySelector('input[name="isEmergency"]:checked');
+
+      if (
+        !selectedTitleObj ||
+        !nameInput.value.trim() ||
+        !clinicSelect.value
+      ) {
+        showAlert('يرجى ملء جميع الحقول الإلزامية.');
+        return;
+      }
+
+      const title = selectedTitleObj.value;
+      const name = nameInput.value.trim();
+      const clinicText = clinicSelect.value;
+
+      const isEmergency = selectedEmergencyObj
+        ? selectedEmergencyObj.value === 'yes'
+        : false;
+
+      // اختيار رقم غير مستخدم في قائمة الانتظار
+      const ticketNum = getNextAvailableTicketNumber();
+
+      // تحديث الرقم التالي وحفظه
+      currentTicketNumber = ticketNum + 1;
+      saveNextTicketNumber();
+
+      queue.push({
+        id: Date.now(),
+        ticketNumber: ticketNum,
+        ticketNumberWords: numberToWords(ticketNum),
+        title: title,
+        name: name,
+        clinicText: clinicText,
+        isEmergency: isEmergency
+      });
+
+      nameInput.value = '';
+      clinicSelect.selectedIndex = 0;
+
+      updateCallPreview();
+      syncData();
+
+      nameInput.focus();
+    }
+
+    // =========================
+    // مزامنة البيانات
+    // =========================
+
+    function syncData() {
+      channel.postMessage({
+        type: 'UPDATE_QUEUE',
+        queue: queue
+      });
+
+      renderAdminQueue();
+    }
+
+    // =========================
+    // عرض قائمة الانتظار
+    // =========================
+
+    function renderAdminQueue() {
+      const list = document.getElementById('adminQueueList');
+
+      list.innerHTML = '';
+
+      if (queue.length === 0) {
+        list.innerHTML =
+          '<li style="text-align:center; color:#999; font-size:14px; padding:15px;">القائمة فارغة</li>';
+        return;
+      }
+
+      queue.forEach(item => {
+        const li = document.createElement('li');
+
+        li.className =
+          `queue-item ${item.isEmergency ? 'is-emergency' : ''}`;
+
+        li.innerHTML = `
+          <div>
+            <span class="patient-ticket-badge">#${item.ticketNumber}</span>
+            <strong>${item.title} ${item.name}</strong>
+            ${item.isEmergency ? '<span class="badge-emergency">طوارئ 🚨</span>' : ''}
+            <br>
+            <small style="color:#777; margin-right:5px;">${item.clinicText}</small>
+          </div>
+
+          <div class="action-btns">
+            <div class="row-btns">
+              <button type="button" class="btn-action btn-call"
+                ${isCalling ? 'disabled' : ''}
+                onclick="triggerCall(${item.id}, 'name')">
+                ${isCalling ? 'جاري النداء...' : '🔊 نداء بالاسم'}
+              </button>
+
+              <button type="button" class="btn-action btn-call"
+                ${isCalling ? 'disabled' : ''}
+                onclick="triggerCall(${item.id}, 'number')">
+                ${isCalling ? 'جاري النداء...' : '🔊 نداء بالرقم'}
+              </button>
+            </div>
+
+            <button type="button" class="btn-action btn-done"
+              onclick="completePatient(${item.id})">
+              ✓ تم إزالة المريض
+            </button>
+          </div>
+        `;
+
+        list.appendChild(li);
+      });
+    }
+
+    // =========================
+    // نداء المريض
+    // =========================
+
+    function triggerCall(patientId, mode) {
+      if (!isTVReady) {
+        showAlert('⚠️ يرجى تشغيل شاشة التلفاز أولاً والضغط على زر التفعيل!');
+        return;
+      }
+
+      if (isCalling) return;
+
+      const item = queue.find(patient =>
+        Number(patient.id) === Number(patientId)
+      );
+
+      if (!item) return;
+
+      isCalling = true;
+      renderAdminQueue();
+
+      const sentence = buildCallSentence(item, mode);
+
+      channel.postMessage({
+        type: 'CALL_PATIENT',
+        patientId: item.id,
+        sentence: sentence
+      });
+
+      clearTimeout(fallbackTimer);
+
+      fallbackTimer = setTimeout(() => {
+        if (isCalling) {
+          isCalling = false;
+          renderAdminQueue();
+        }
+      }, 18000);
+    }
+
+    // =========================
+    // إزالة المريض
+    // =========================
+
+    function completePatient(id) {
+      const targetId = Number(id);
+
+      queue = queue.filter(item =>
+        Number(item.id) !== targetId
+      );
+
+      syncData();
+    }
+
+  </script>
+
+</body>
+</html>
